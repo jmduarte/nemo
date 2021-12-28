@@ -6,7 +6,7 @@ USER root
 
 # Install tcsh xorg-dev gfortran
 RUN apt-get update -y
-RUN apt-get install tcsh xorg-dev gfortran man -y
+RUN apt-get install tcsh xorg-dev gfortran man emacs -y
 
 # Install nemo
 RUN wget https://teuben.github.io/nemo/install_nemo
