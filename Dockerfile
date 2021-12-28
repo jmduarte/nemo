@@ -1,12 +1,15 @@
-FROM ucsdets/scipy-ml-notebook:2021.3.1
+FROM ucsdets/datahub-base-notebook:2022.1-stable
 
 LABEL maintainer="Javier Duarte <jduarte@ucsd.edu>"
 
 USER root
 
-# Install tcsh xorg-dev gfortran
-RUN apt-get update -y
-RUN apt-get install tcsh xorg-dev gfortran man emacs -y
+# Install tcsh xorg-dev gfortran emacs
+RUN apt-get update -y && \
+    apt-get install --no-install-recommends -y \
+    libtinfo5 tcsh xorg-dev gfortran g++ man emacs && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install nemo
 RUN wget https://teuben.github.io/nemo/install_nemo
@@ -18,9 +21,6 @@ RUN chmod +x nemo/nemo_start.sh
 # Fix permissions
 RUN fix-permissions /home/$NB_USER
 
-USER $NB_USER
-WORKDIR /home/$NB_USER
-
-ENV USER=${NB_USER}
+USER $NB_UID:$NB_GID
 
 CMD ["nemo/nemo_start.sh && start-notebook.sh"]
