@@ -11,6 +11,9 @@ RUN apt-get update -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+COPY run_jupyter.sh /
+RUN chmod +x /run_jupyter.sh
+
 # Install nemo
 RUN wget https://teuben.github.io/nemo/install_nemo
 SHELL ["/bin/tcsh", "-c", "source install_nemo nemo=nemo"]
